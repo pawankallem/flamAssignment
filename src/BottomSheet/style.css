@@ -19,14 +19,6 @@ body {
   line-height: 1.5;
 }
 
-.button-container {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 button,
 input,
 textarea,
