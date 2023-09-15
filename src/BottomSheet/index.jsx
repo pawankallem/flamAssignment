@@ -117,7 +117,7 @@ export const BottomSheet = () => {
               title="Close the sheet"
               onClick={() => setIsSheetShown(true)}
             >
-              &times;
+              X
             </button>
           </header>
         </div>
