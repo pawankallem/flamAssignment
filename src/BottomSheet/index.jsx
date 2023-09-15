@@ -2,19 +2,9 @@ import { useEffect, useState } from "react";
 import "./style.css";
 
 export const BottomSheet = () => {
-  const [isSheetShown, setIsSheetShown] = useState(true);
-  const [sheetHeight, setSheetHeight] = useState(undefined);
+  const [sheetHeight, setSheetHeight] = useState(8);
   const [dragPosition, setDragPosition] = useState(undefined);
   const [addClass, setAddClass] = useState(false);
-
-  const handleSheetHeight = (value) => {
-    setSheetHeight(Math.max(0, Math.min(100, value)));
-  };
-
-  const handleOpenSheetClick = () => {
-    handleSheetHeight(Math.min(50, (720 / window.innerHeight) * 100));
-    setIsSheetShown(false);
-  };
 
   const touchPosition = (event) => (event.touches ? event.touches[0] : event);
 
@@ -39,7 +29,7 @@ export const BottomSheet = () => {
     setAddClass(false);
     document.body.style.cursor = "";
     if (sheetHeight < 25) {
-      setIsSheetShown(true);
+      setSheetHeight(8);
     } else if (sheetHeight > 75) {
       setSheetHeight(100);
     } else {
@@ -48,8 +38,8 @@ export const BottomSheet = () => {
   };
 
   const handleEscape = (event) => {
-    if (event.key === "Escape" && !isSheetShown) {
-      setIsSheetShown(true);
+    if (event.key === "Escape" && sheetHeight != 8) {
+      setSheetHeight(8);
     }
   };
 
@@ -71,24 +61,8 @@ export const BottomSheet = () => {
 
   return (
     <div className="bottom-sheet-container">
-      <div className="button-container">
-        <button
-          type="button"
-          id="open-sheet"
-          aria-controls="sheet"
-          onClick={handleOpenSheetClick}
-        >
-          Open Sheet
-        </button>
-      </div>
-      <div
-        id="sheet"
-        className="sheet"
-        aria-hidden={isSheetShown ? "true" : "false"}
-        role="dialog"
-      >
-        <div className="overlay" onClick={() => setIsSheetShown(true)}></div>
-
+      <div id="sheet" className="sheet" role="dialog">
+        <div className="overlay" onClick={() => setSheetHeight(8)}></div>
         <div
           style={{ height: `${sheetHeight}vh` }}
           className={
@@ -110,15 +84,15 @@ export const BottomSheet = () => {
             >
               <div className="draggable-thumb"></div>
             </div>
-
-            <button
-              className="close-sheet"
-              type="button"
-              title="Close the sheet"
-              onClick={() => setIsSheetShown(true)}
-            >
-              X
-            </button>
+            {sheetHeight > 25 && (
+              <button
+                className="close-sheet"
+                title="Close the sheet"
+                onClick={() => setSheetHeight(8)}
+              >
+                X
+              </button>
+            )}
           </header>
         </div>
       </div>
